@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Image</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.js"
+    integrity="sha512-wUa0ktp10dgVVhWdRVfcUO4vHS0ryT42WOEcXjVVF2+2rcYBKTY7Yx7JCEzjWgPV+rj2EDUr8TwsoWF6IoIOPg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"
+    integrity="sha512-Qlv6VSKh1gDKGoJbnyA5RMXYcvnpIqhO++MhIM2fStMcGT9i2T//tSwYFlcyoRRDcDZ+TYHpH8azBBCyhpSeqw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.9.0/html-to-image.js"
+    integrity="sha512-8GQQGLSN+MYJfxnTNZm8HPIXz9TkAMeRcadyQO/oFsk+OAHOH7uTz5dAafi1ADICwul44a3JpV2vsolsjVeVGg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js">
+  </script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+  </script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+  </script>
+</head>
+
+<body>
+  <div id="formImage"
+    style="border: Solid 10px #000000; position: relative; align-self: center; padding: 20px; background-color: cyan; float: left">
+    <img src="https://s3.us-east-1.amazonaws.com/optioncircle-files-beta/sc-tk-prod-640141B5-EA8D-4DB3-A336-335B741016A2"
+      style="width:585px; max-width:585px; vertical-align:top; height: 700px;" alt="">
+    <form>
+      ${traderName}
+      <br /><br />
+      ${clubType}
+      <br /><br />
+      ${stars}
+      <br /><br />
+      ${winningTrades}
+      <br /><br />
+      ${winningPercent}
+      <br /><br />
+      ${followers}
+      <br /><br />
+      ${monthlyRoi}
+      <br /><br />
+      ${message}
+    </form>
+
+  </div>
+
+  <div id="output"></div>
+
+  <button onclick="shot();"
+    style="width: 15%; margin: 12px; background-color: green; color: white; padding: 15px 22px; float:left">
+    Capture
+  </button>
+
+  <script type="text/javascript">
+
+    // const download = () => {
+    //   html2canvas(document.querySelector('#capture')).then(canvas => {
+    //     document.body.appendChild(canvas);
+    //   });
+    // }
+
+    function shot() {
+
+      let element = document.getElementById('formImage');
+
+
+      //JPEG download
+      // htmltoimage.toJpeg(document.getElementById('formImage'), { quality: 1 })
+      // .then(function (dataUrl) {
+      //     var link = document.createElement('a');
+      //     link.download = 'my-image-name.jpeg';
+      //     link.href = dataUrl;
+      //     link.click();
+      // });
+
+      // PNG
+      // domtoimage.toPng(element)
+      //     .then(function (dataUrl) {
+      //         var img = new Image();
+      //         img.src = dataUrl;
+      //         document.body.appendChild(img);
+      //     })
+      //     .catch(function (error) {
+      //         console.error('oops, something went wrong!', error);
+      //     });
+
+      // download blob
+      // domtoimage.toBlob(document.getElementById('formImage'))
+      // .then(function (blob) {
+      //     window.saveAs(blob, 'formImage.png');
+      // });
+
+
+      // html2canvas(element).then(
+      //   function (canvas) {
+      //     document
+      //       .getElementById('output')
+      //       .appendChild(canvas);
+      //   })
+
+      //download svg
+
+      function filter(formImage) {
+        return (formImage.tagName !== 'i');
+      }
+      htmlToImage.toSvg(document.getElementById('formImage', { filter: filter }), { quality: 1 })
+        .then(function (dataUrl) {
+          this.shot_loading = true;
+          var img = new Image();
+          img.src = dataUrl; 
+          document.body.appendChild(img);
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+
+      //   var node = document.getElementById('formimage');
+      // domtoimage.toPixelData(formImage)
+      //     .then(function (pixels) {
+      //         for (var y = 0; y < formImage.scrollHeight; ++y) {
+      //           for (var x = 0; x < formImage.scrollWidth; ++x) {
+      //             pixelAtXYOffset = (4 * y * formImage.scrollHeight) + (4 * x);
+      //             /* pixelAtXY is a Uint8Array[4] containing RGBA values of the pixel at (x, y) in the range 0..255 */
+      //             pixelAtXY = pixels.slice(pixelAtXYOffset, pixelAtXYOffset + 4);
+      //           }
+      //         }
+      //     });
+    }
+  </script>
+
+</body>
+
+</html>
